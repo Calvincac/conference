@@ -43,4 +43,13 @@ User Interface CSS in Rails Apps 30min";
 
 $talks = explode(PHP_EOL, $input);
 
-$talk =  new Talk($input);
+foreach($talks as $talk) {
+    if(! empty($talk)) {
+        $result[] = new Talk($talk);
+    }
+}
+
+print_r($result);
+
+
+//$talk =  new Talk($input);
