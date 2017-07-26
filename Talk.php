@@ -17,8 +17,8 @@ class Talk
         $length = explode("min", $match[1][0]);
         $this->length = $length[0];                   
     }
-
     
+      
 
 
 

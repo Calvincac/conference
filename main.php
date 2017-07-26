@@ -1,6 +1,7 @@
 <?php
 
 require_once("Talk.php");
+require_once("TalkBuilder.php");
 
 $input = "
 Writing Fast Tests Against Enterprise Rails 60min
@@ -41,15 +42,7 @@ A World Without HackerNews 30min
 
 User Interface CSS in Rails Apps 30min";
 
-$talks = explode(PHP_EOL, $input);
-
-foreach($talks as $talk) {
-    if(! empty($talk)) {
-        $result[] = new Talk($talk);
-    }
-}
+$talkBuilder =  new TalkBuilder($input);
+$result =  $talkBuilder->buildTalks();
 
 print_r($result);
-
-
-//$talk =  new Talk($input);
