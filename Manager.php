@@ -11,9 +11,8 @@ class Manager
 
     public function arrangeSchedule()
     {
-        
+     
     }
-
 
 }
 
