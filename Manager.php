@@ -6,7 +6,7 @@ class Manager
 
     public function __construct($talks)
     {
-        $this->talks;
+        $this->talks = $talks;
     }
 
     public function arrangeSchedule()

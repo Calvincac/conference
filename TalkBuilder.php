@@ -1,6 +1,7 @@
 <?php
 
 require_once("Talk.php");
+require_once("Manager.php");
 
 class TalkBuilder
 {
@@ -19,9 +20,9 @@ class TalkBuilder
                 $this->talks[] = new Talk($talk);
             }
         }
-        return $this->talks;
+        $manager =  new Manager($this->talks);
+        return $manager;
     }
-
 }
 
 
