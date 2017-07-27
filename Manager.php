@@ -11,7 +11,9 @@ class Manager
 
     public function arrangeSchedule()
     {
-     
+        foreach($this->talks as $talk) {
+            
+        }             
     }
 
 }

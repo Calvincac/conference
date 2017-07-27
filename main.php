@@ -1,6 +1,4 @@
 <?php
-
-require_once("Talk.php");
 require_once("TalkBuilder.php");
 
 $input = "
@@ -42,7 +40,8 @@ A World Without HackerNews 30min
 
 User Interface CSS in Rails Apps 30min";
 
-$talkBuilder =  new TalkBuilder($input);
-$result =  $talkBuilder->buildTalks();
 
-print_r($result);
+$talks = new TalkBuilder($input);
+
+$talks->buildTalks()->arrangeSchedule();
+
