@@ -43,5 +43,5 @@ User Interface CSS in Rails Apps 30min";
 
 $talks = new TalkBuilder($input);
 
-$talks->buildTalks()->arrangeSchedule();
+$talks->buildTalks()->arrangeAfternoonSchedule();
 
