@@ -1,8 +1,8 @@
 <?php
 require_once("TalkBuilder.php");
 
-$input = "
-Writing Fast Tests Against Enterprise Rails 60min
+$input = 
+"Writing Fast Tests Against Enterprise Rails 60min
 
 Overdoing it in Python 45min
 
@@ -43,5 +43,5 @@ User Interface CSS in Rails Apps 30min";
 
 $talks = new TalkBuilder($input);
 
-$talks->buildTalks()->arrangeAfternoonSchedule();
+$talks->buildTalks()->arrangeTracks();
 

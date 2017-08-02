@@ -7,12 +7,12 @@ class Manager
     private $afternoonHours = 240;
     private $morningTalks = [];
     private $afternoonTalks = [];
+    private $tracks = [];
 
 
     public function __construct($talks)
     {
         $this->talks = $talks;
-        $this->arrangeMorningSchedule();
     }
 
 
@@ -36,6 +36,17 @@ class Manager
                  unset($this->talks[$key]);
             }            
         }
+    }
+
+    public function arrangeTracks()
+    {
+
+    }
+
+    public function calculateTime()
+    {
+
+
     }
 }
 
