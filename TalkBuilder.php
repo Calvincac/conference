@@ -19,9 +19,8 @@ class TalkBuilder
             if(! empty($talk)) {
                 $this->talks[] = new Talk($talk);
             }
-        }
-        $manager =  new Manager($this->talks);
-        return $manager;
+        }        
+        return new Manager($this->talks);
     }
 }
 
