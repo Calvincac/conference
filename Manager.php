@@ -40,7 +40,11 @@ class Manager
 
     public function arrangeTracks()
     {
-
+        do {
+            $this->arrangeMorningSchedule();
+            $this->arrangeAfternoonSchedule();
+ 
+        }while($n > 0);
     }
 
     public function calculateTime()
