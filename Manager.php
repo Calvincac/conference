@@ -3,10 +3,6 @@
 class Manager
 {
     private $talks;
-    private $morningHours = 180;
-    private $afternoonHours = 240;
-    private $morningTalks = [];
-    private $afternoonTalks = [];
     private $tracks = [];
 
 
@@ -16,40 +12,64 @@ class Manager
     }
 
 
-    public function arrangeMorningSchedule()
+    public function arrangeMorningSchedule($talks)
     {
-        foreach($this->talks as $key => $value) {
-            if($this->talks[$key]->getLength() <= $this->morningHours) {
-                $this->morningHours = $this->morningHours - $this->talks[$key]->getLength();
-                $this->morningTalks[] = $this->talks[$key];
+        $morningHours = 180;
+        foreach($talks as $key => $value) {
+            if($talks[$key]->getLength() <= $morningHours) {
+                $morningHours = $morningHours - $talks[$key]->getLength();
+                $morningTalks[] = $talks[$key];
                 unset($this->talks[$key]);
             }
-        }      
+        }
+        return $morningTalks;      
     }
 
-    public function arrangeAfternoonSchedule()
+    public function arrangeAfternoonSchedule($talks)
     {
-        foreach($this->talks as $key => $value) {
-            if($this->talks[$key]->getLength() <= $this->afternoonHours) {
-                 $this->afternoonHours = $this->afternoonHours - $this->talks[$key]->getLength();
-                 $this->afternoonTalks[] = $this->talks[$key]; 
+        $afternoonHours = 240;
+        foreach($talks as $key => $value) {
+            if($talks[$key]->getLength() <= $afternoonHours) {
+                 $afternoonHours = $afternoonHours - $talks[$key]->getLength();
+                 $afternoonTalks[] = $talks[$key]; 
                  unset($this->talks[$key]);
             }            
         }
+        return $afternoonTalks;
     }
 
     public function arrangeTracks()
     {
         do {
-            $this->arrangeMorningSchedule();
-            $this->arrangeAfternoonSchedule();
- 
-        }while($n > 0);
+            $this ->tracks[] = array_merge(
+                $this->arrangeMorningSchedule($this->talks),
+                $this->arrangeAfternoonSchedule($this->talks)
+            );
+
+            $n = count($this->talks);
+        } while($n > 0);
+        $this->showTracks();
     }
 
-    public function calculateTime()
+    public function calculateTime($track, $numberOfTrack)
     {
+        $morning = 0;
+        print("Track " . $numberOfTrack . "\n");
+        foreach($track as $t) {
+            $morning = $morning + $t->getLength();
+            if($morning <= 180) {
+                print( $t->getLength() . " " . $t->getName(). "\n");
+            }
+        }        
+    }
 
+    public function showTracks()
+    { 
+        $i = 0;
+        foreach($this->tracks as $track) {
+            $i++;
+            $this->calculateTime($track, $i);
+        }
 
     }
 }
