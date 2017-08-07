@@ -54,10 +54,13 @@ class Manager
     public function calculateTime($track, $numberOfTrack)
     {
         $morning = 0;
-        print("Track " . $numberOfTrack . "\n");
+        print("\nTrack " . $numberOfTrack . "\n");
+
         foreach($track as $t) {
             $morning = $morning + $t->getLength();
             if($morning <= 180) {
+                print( $t->getLength() . " " . $t->getName(). "\n");
+            } else {
                 print( $t->getLength() . " " . $t->getName(). "\n");
             }
         }        
