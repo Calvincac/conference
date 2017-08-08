@@ -11,7 +11,6 @@ class Manager
         $this->talks = $talks;
     }
 
-
     public function arrangeMorningSchedule($talks)
     {
         $morningHours = 180;
@@ -38,42 +37,40 @@ class Manager
         return $afternoonTalks;
     }
 
+    public function arrangeSchedule($talks)
+    {
+        $minutesLeft = 420;
+        $track = [];
+        foreach($talks as $key => $value) {
+            if($talks[$key]->getLength() <= $minutesLeft) {
+                 $minutesLeft = $minutesLeft - $talks[$key]->getLength();
+                 $tracks[] = $talks[$key];
+                 unset($this->talks[$key]);
+            }            
+        }
+        $this->showTracks($tracks);
+    }
+
+
+    public function showTracks($talks)
+    {
+        print_r($talks);       
+
+    }
+
     public function arrangeTracks()
     {
         do {
-            $this ->tracks[] = array_merge(
-                $this->arrangeMorningSchedule($this->talks),
-                $this->arrangeAfternoonSchedule($this->talks)
-            );
+            //$this->arrangeMorningSchedule($this->talks);
+            //$this->arrangeAfternoonSchedule($this->talks);
 
+            $this->arrangeSchedule($this->talks);
+            print_r($this->tracks);
+            exit;
             $n = count($this->talks);
         } while($n > 0);
-        $this->showTracks();
     }
 
-    public function calculateTime($track, $numberOfTrack)
-    {
-        $morning = 0;
-        print("\nTrack " . $numberOfTrack . "\n");
 
-        foreach($track as $t) {
-            $morning = $morning + $t->getLength();
-            if($morning <= 180) {
-                print( $t->getLength() . " " . $t->getName(). "\n");
-            } else {
-                print( $t->getLength() . " " . $t->getName(). "\n");
-            }
-        }        
-    }
-
-    public function showTracks()
-    { 
-        $i = 0;
-        foreach($this->tracks as $track) {
-            $i++;
-            $this->calculateTime($track, $i);
-        }
-
-    }
 }
 
