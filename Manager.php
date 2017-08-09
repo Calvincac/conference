@@ -4,6 +4,8 @@ class Manager
 {
     private $talks;
     private $tracks = [];
+    private $timeAcc = 540;
+    private $morningTime = 0;
 
 
     public function __construct($talks)
@@ -35,22 +37,27 @@ class Manager
 
     public function processTime($time) 
     {
-        $acc = 0;
-        $acc = $acc + $time;
-        if($acc <= 180) {
-            $x = 540;
-            $x = $x + $time ;
-            $p = $this->buildHour($x);
+        $this->morningTime = $this->morningTime + $time;
+
+        if($this->morningTime <= 180) {
+
+            if($this->timeAcc === 540) {
+                $this->buildHour($this->timeAcc);
+                $p = $this->buildHour($this->timeAcc);
+                print($p . "\n");
+            }
+
+            $this->timeAcc = $this->timeAcc + $time;
+            $p = $this->buildHour($this->timeAcc);
             print($p . "\n");
         }
 
-    }
+    }    
 
     public function buildHour($time)
     {
-        if($time > 540) {
-            return $this->convertToHoursMins($time);            
-        }                                      
+                
+        return $this->convertToHoursMins($time);                                                
     }
 
     public function convertToHoursMins($minutes) 
