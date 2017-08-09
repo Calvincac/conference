@@ -11,32 +11,6 @@ class Manager
         $this->talks = $talks;
     }
 
-    public function arrangeMorningSchedule($talks)
-    {
-        $morningHours = 180;
-        foreach($talks as $key => $value) {
-            if($talks[$key]->getLength() <= $morningHours) {
-                $morningHours = $morningHours - $talks[$key]->getLength();
-                $morningTalks[] = $talks[$key];
-                unset($this->talks[$key]);
-            }
-        }
-        return $morningTalks;      
-    }
-
-    public function arrangeAfternoonSchedule($talks)
-    {
-        $afternoonHours = 240;
-        foreach($talks as $key => $value) {
-            if($talks[$key]->getLength() <= $afternoonHours) {
-                 $afternoonHours = $afternoonHours - $talks[$key]->getLength();
-                 $afternoonTalks[] = $talks[$key]; 
-                 unset($this->talks[$key]);
-            }            
-        }
-        return $afternoonTalks;
-    }
-
     public function arrangeSchedule($talks)
     {
         $minutesLeft = 420;
@@ -54,18 +28,44 @@ class Manager
 
     public function showTracks($talks)
     {
-        print_r($talks);       
+        foreach($talks as $talk) {
+            $this->processTime($talk->getLength());
+        }
+    }
 
+    public function processTime($time) 
+    {
+        $acc = 0;
+        $acc = $acc + $time;
+        if($acc <= 180) {
+            $x = 540;
+            $x = $x + $time ;
+            $p = $this->buildHour($x);
+            print($p . "\n");
+        }
+
+    }
+
+    public function buildHour($time)
+    {
+        if($time > 540) {
+            return $this->convertToHoursMins($time);            
+        }                                      
+    }
+
+    public function convertToHoursMins($minutes) 
+    {
+        $zero    = new DateTime('@0');
+        $offset  = new DateTime('@' . $minutes * 60);
+        $diff    = $zero->diff($offset);
+        return $diff->format('%h:%i AM');
     }
 
     public function arrangeTracks()
     {
         do {
-            //$this->arrangeMorningSchedule($this->talks);
-            //$this->arrangeAfternoonSchedule($this->talks);
-
             $this->arrangeSchedule($this->talks);
-            print_r($this->tracks);
+            //print_r($this->tracks);
             exit;
             $n = count($this->talks);
         } while($n > 0);
