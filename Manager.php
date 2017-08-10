@@ -5,7 +5,9 @@ class Manager
     private $talks;
     private $tracks = [];
     private $timeAcc = 540;
+    private $x = 60;
     private $morningTime = 0;
+    private $afternoonTime = 0;
 
 
     public function __construct($talks)
@@ -31,28 +33,67 @@ class Manager
     public function showTracks($talks)
     {
         foreach($talks as $talk) {
-            $this->processTime($talk->getLength());
+            $this->processTime($talk);
         }
     }
 
     public function processTime($time) 
     {
-        $this->morningTime = $this->morningTime + $time;
+        // Morning meetings
+        $this->arrangeMorningTime($time);
 
-        if($this->morningTime <= 180) {
+        // Afternoon meetings
+        $this->arrangeAfternoonTime($time);
 
-            if($this->timeAcc === 540) {
+    }
+
+    public function arrangeMorningTime($time)
+    {
+        while($this->morningTime < 180) { // 3 hours in the morning
+            $this->morningTime = $this->morningTime + $time->getLength();
+
+            if($this->timeAcc === 540) { // 540 is 9:00 AM in minutes
                 $this->buildHour($this->timeAcc);
                 $p = $this->buildHour($this->timeAcc);
-                print($p . "\n");
+                print($p . " " .  $time->getName() ."\n");
+                $this->checkIfItsNoon($time);
             }
-
-            $this->timeAcc = $this->timeAcc + $time;
-            $p = $this->buildHour($this->timeAcc);
-            print($p . "\n");
         }
 
-    }    
+    }
+
+    public function checkIfItsNoon($time)
+    {
+        $this->timeAcc = $this->timeAcc + $time->getLength();
+        
+        if($this->timeAcc === 720) { 
+            $this->buildHour($this->timeAcc);
+            $p = $this->buildHour($this->timeAcc);
+           print($p . " " .  $time->getName() ."\n");
+            return;
+        } else {
+            $p = $this->buildHour($this->timeAcc);
+            print($p . " " .  $time->getName() ."\n");
+        }
+
+    }  
+
+    public function arrangeAfternoonTime($time)
+    {
+         while($this->afternoonTime <  240 && $this->x < 300) {
+            $this->afternoonTime = $this->afternoonTime + $time->getLength();
+            
+            if($this->x === 60) { // 60 is 1:00 PM in minutes
+                $this->buildHour($this->x);
+                $p = $this->buildHour($this->x);
+                print($p . " " .  $time->getName() ."\n");
+            }
+
+            $this->x = $this->x + $time->getLength();
+            $p = $this->buildHour($this->x);
+            print($p . " " .  $time->getName() ."\n");
+        }
+    }  
 
     public function buildHour($time)
     {
@@ -71,9 +112,8 @@ class Manager
     public function arrangeTracks()
     {
         do {
+            //shuffle($this->talks);
             $this->arrangeSchedule($this->talks);
-            //print_r($this->tracks);
-            exit;
             $n = count($this->talks);
         } while($n > 0);
     }
