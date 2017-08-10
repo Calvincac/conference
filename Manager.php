@@ -26,79 +26,12 @@ class Manager
                  unset($this->talks[$key]);
             }            
         }
-        $this->showTracks($tracks);
+       $this->process($tracks);
     }
 
-
-    public function showTracks($talks)
+    public function process($talks)
     {
-        foreach($talks as $talk) {
-            $this->processTime($talk);
-        }
-    }
-
-    public function processTime($time) 
-    {
-        // Morning meetings
-        $this->arrangeMorningTime($time);
-
-        // Afternoon meetings
-        $this->arrangeAfternoonTime($time);
-
-    }
-
-    public function arrangeMorningTime($time)
-    {
-        while($this->morningTime < 180) { // 3 hours in the morning
-            $this->morningTime = $this->morningTime + $time->getLength();
-
-            if($this->timeAcc === 540) { // 540 is 9:00 AM in minutes
-                $this->buildHour($this->timeAcc);
-                $p = $this->buildHour($this->timeAcc);
-                print($p . " " .  $time->getName() ."\n");
-                $this->checkIfItsNoon($time);
-            }
-        }
-
-    }
-
-    public function checkIfItsNoon($time)
-    {
-        $this->timeAcc = $this->timeAcc + $time->getLength();
         
-        if($this->timeAcc === 720) { 
-            $this->buildHour($this->timeAcc);
-            $p = $this->buildHour($this->timeAcc);
-           print($p . " " .  $time->getName() ."\n");
-            return;
-        } else {
-            $p = $this->buildHour($this->timeAcc);
-            print($p . " " .  $time->getName() ."\n");
-        }
-
-    }  
-
-    public function arrangeAfternoonTime($time)
-    {
-         while($this->afternoonTime <  240 && $this->x < 300) {
-            $this->afternoonTime = $this->afternoonTime + $time->getLength();
-            
-            if($this->x === 60) { // 60 is 1:00 PM in minutes
-                $this->buildHour($this->x);
-                $p = $this->buildHour($this->x);
-                print($p . " " .  $time->getName() ."\n");
-            }
-
-            $this->x = $this->x + $time->getLength();
-            $p = $this->buildHour($this->x);
-            print($p . " " .  $time->getName() ."\n");
-        }
-    }  
-
-    public function buildHour($time)
-    {
-                
-        return $this->convertToHoursMins($time);                                                
     }
 
     public function convertToHoursMins($minutes) 
@@ -111,8 +44,7 @@ class Manager
 
     public function arrangeTracks()
     {
-        do {
-            //shuffle($this->talks);
+        do {            
             $this->arrangeSchedule($this->talks);
             $n = count($this->talks);
         } while($n > 0);
